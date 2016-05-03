@@ -13,7 +13,8 @@ var options = {
   auth: {
     user: username,
     password: password
-  }
+  },
+  rejectUnauthorized: false
 }
 
 /* GET status page. */

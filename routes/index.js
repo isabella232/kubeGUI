@@ -14,7 +14,8 @@ var options = {
     user: username,
     password: password
   },
-  rejectUnauthorized: false
+  rejectUnauthorized: false,
+  timeout: 1000
 }
 
 /* GET status page. */

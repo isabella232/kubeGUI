@@ -1,0 +1,11 @@
+.navbar-brand {
+  padding: 0px; /* firefox bug fix */
+}
+.navbar-brand>img {
+  height: 60px;
+  padding: 3px; /* firefox bug fix */
+  width: auto;
+}
+.navbar li a {
+  padding: 20px;
+}

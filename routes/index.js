@@ -20,11 +20,14 @@ var options = {
 /* GET status page. */
 router.get('/status', function(req, res, next) {
   request(options, function(error, response, body) {
-    if (error) {
-      console.dir(error)
-      return
+    if (!error && response.statusCode == 200) {
+      res.writeHead(200);
+      res.end(JSON.stringify({error: false, status: "Successfully connected to Kubernetes"}));
     }
-    console.dir(body)
+    else {
+      res.writeHead(503);
+      res.end(JSON.stringify({error: true, status: "Could not connect to Kubernetes"}));
+    }
   })
 });
 

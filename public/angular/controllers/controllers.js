@@ -1,3 +1,9 @@
+kubeGUI.controller('HeaderController', function($scope, $location) {
+  $scope.isActive = function (viewLocation) {
+      return viewLocation === $location.path();
+  };
+});
+
 kubeGUI.controller('homeController', function($scope) {
   $scope.message = 'Home';
 });
@@ -13,10 +19,3 @@ kubeGUI.controller('rcController', function($scope) {
 kubeGUI.controller('servicesController', function($scope) {
   $scope.message = 'Services';
 });
-
-function HeaderController($scope, $location)
-{
-    $scope.isActive = function (viewLocation) {
-        return viewLocation === $location.path();
-    };
-}

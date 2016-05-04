@@ -14,12 +14,24 @@
   background-color: blue;
   color: white;
   margin: auto;
-  margin-top: 5px;
+  margin-top: 20px;
+  border-radius: 5px;
+  display: table;
+  height: auto;
 }
 .boxSmallFont {
+  margin-top: 10px;
   font-size: 15px;
+  line-height: 100%;
 }
 .innerBox {
   background-color: white;
   color: black;
+  margin: 7px;
+  padding: 5px;
+  height: auto;
+  width: auto;
+  font-size: 17px;
+  line-height:25px;
+  border-radius: 3px;
 }

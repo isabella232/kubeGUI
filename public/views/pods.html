@@ -2,6 +2,14 @@
 
   <div class="box" ng-repeat="pod in pods">
     {{ pod.name }}
+  <div class="boxSmallFont">{{ pod.nodeName }}</div>
+  <div class="boxSmallFont">{{ pod.hostIP }}</div>
+  {{ containers }}
+  <div class="innerBox" ng-repeat="container in pod.containers">
+    Name: {{ container.name }}
+    Image: {{ container.image }}
+  </div>
+
   </div>
 
 </div>

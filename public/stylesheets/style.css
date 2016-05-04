@@ -10,8 +10,16 @@
   padding: 20px;
 }
 .box {
-  width: 50%;
+  width: 500px;
   background-color: blue;
   color: white;
   margin: auto;
+  margin-top: 5px;
+}
+.boxSmallFont {
+  font-size: 15px;
+}
+.innerBox {
+  background-color: white;
+  color: black;
 }

@@ -1,14 +1,13 @@
-kubeGUI.factory('model', function($rootScope) {
+kubeGUI.factory('model', function($rootScope, $location) {
   var obj = {};
 
   var socket;
-  var url;
+  var url = $location.absUrl().split('#')[0];
   var dataStore = {};
 
   obj.start = function(kind) {
     dataStore = obj.getEmptyDataStore();
-
-    var socket = io('http://localhost:3000');
+    var socket = io(url);
     socket.emit('start', kind);
     socket.on('update', function(data) {
       obj.parse(data, kind);

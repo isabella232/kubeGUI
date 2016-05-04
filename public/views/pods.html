@@ -1,16 +1,39 @@
 <div class="jumbotron text-center">
 
+  <p class="smallFont">Filter:</p>
+  <div class="filterBox">
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1">Name</span>
+    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1">Namespace</span>
+    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1">NodeName</span>
+    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1">@</span>
+    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1">Container</span>
+    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+  </div>
+</div>
+
   <div class="box" ng-repeat="pod in pods">
     {{ pod.name }}
-  <div class="boxSmallFont">
-    NodeName: {{ pod.nodeName }}
-    HostIP: {{ pod.hostIP }}
-  </div>
+    <div class="boxSmallFont">
+      NodeName: {{ pod.nodeName }} HostIP: {{ pod.hostIP }}
+    </div>
 
-  <div class="innerBox" ng-repeat="container in pod.containers">
-    Name: {{ container.name }}<br/>
-    Image: {{ container.image }}
-  </div>
+    <div class="innerBox" ng-repeat="container in pod.containers">
+      Name: {{ container.name }}
+      <br/> Image: {{ container.image }}
+    </div>
 
   </div>
 

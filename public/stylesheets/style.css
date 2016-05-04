@@ -35,3 +35,15 @@
   line-height:25px;
   border-radius: 3px;
 }
+
+.filterBox {
+  padding: 0px 35%;
+}
+
+.smallFont {
+  font-size: 15px;
+}
+
+.input-group {
+  margin-bottom: 10px;
+}

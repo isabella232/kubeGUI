@@ -4,30 +4,32 @@
   <div class="filterBox">
   <div class="input-group">
     <span class="input-group-addon" id="basic-addon1">Name</span>
-    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+    <input type="text" class="form-control" placeholder="Name of Pod" aria-describedby="basic-addon1" ng-model="filterName">
   </div>
   <div class="input-group">
     <span class="input-group-addon" id="basic-addon1">Namespace</span>
-    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+    <input type="text" class="form-control" placeholder="Namespace of pod" aria-describedby="basic-addon1" ng-model="filterNamespace">
   </div>
   <div class="input-group">
     <span class="input-group-addon" id="basic-addon1">NodeName</span>
-    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+    <input type="text" class="form-control" placeholder="Nodename where the Pod is running" aria-describedby="basic-addon1" ng-model="filterNodeName">
   </div>
   <div class="input-group">
-    <span class="input-group-addon" id="basic-addon1">@</span>
-    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+    <span class="input-group-addon" id="basic-addon1">HostIP</span>
+    <input type="text" class="form-control" placeholder="HostIP of Pod" aria-describedby="basic-addon1" ng-model="filterHostIP">
   </div>
   <div class="input-group">
     <span class="input-group-addon" id="basic-addon1">Container</span>
-    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+    <input type="text" class="form-control" placeholder="Container Name or Image" aria-describedby="basic-addon1" ng-model="filterContainer">
   </div>
 </div>
 
-  <div class="box" ng-repeat="pod in pods">
+  <div class="box" ng-repeat="pod in (filtererdPods = (pods | filter:{name:filterName}| filter:{namespace:filterNamespace}| filter:{nodeName:filterNodeName}| filter:{hostIP:filterHostIP}| filter:{containers:filterContainer}))">
     {{ pod.name }}
     <div class="boxSmallFont">
-      NodeName: {{ pod.nodeName }} HostIP: {{ pod.hostIP }}
+      Namespace: {{ pod.namespace }} </br>
+      NodeName: {{ pod.nodeName }} </br>
+      HostIP: {{ pod.hostIP }}
     </div>
 
     <div class="innerBox" ng-repeat="container in pod.containers">

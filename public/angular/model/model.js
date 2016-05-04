@@ -22,7 +22,7 @@ kubeGUI.factory('model', function($rootScope, $location) {
     var value = {
       uid: jsonData.object.metadata.uid,
       name: jsonData.object.metadata.name,
-      namespace: jsonData.object.metadata.name
+      namespace: jsonData.object.metadata.namespace
     }
 
     switch (kind) {

@@ -9,3 +9,9 @@
 .navbar li a {
   padding: 20px;
 }
+.box {
+  width: 50%;
+  background-color: blue;
+  color: white;
+  margin: auto;
+}

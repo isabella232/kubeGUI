@@ -1,3 +1,7 @@
 <div class="jumbotron text-center">
-  <p>{{ pods }}</p>
+
+  <div class="box" ng-repeat="pod in pods">
+    {{ pod.name }}
+  </div>
+
 </div>

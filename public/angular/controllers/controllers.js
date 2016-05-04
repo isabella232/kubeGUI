@@ -8,8 +8,9 @@ kubeGUI.controller('homeController', function($scope) {
   $scope.message = 'Home';
 });
 
-kubeGUI.controller('podsController', function($scope) {
-  $scope.message = 'Pods';
+kubeGUI.controller('podsController', function($scope, model) {
+  model.start('pods');
+  $scope.pods = model.getDataStore('pods');
 });
 
 kubeGUI.controller('rcController', function($scope) {

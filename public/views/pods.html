@@ -24,7 +24,9 @@
   </div>
 </div>
 
-  <div class="box" ng-repeat="pod in (filtererdPods = (pods | filter:{name:filterName}| filter:{namespace:filterNamespace}| filter:{nodeName:filterNodeName}| filter:{hostIP:filterHostIP}| filter:{containers:filterContainer}))">
+  <div class="box" ng-repeat="pod in (filteredPods = (pods | filter:{name:filterName} | filter:{namespace:filterNamespace} |
+  filter:{nodeName:filterNodeName} | filter:{hostIP:filterHostIP} |
+  filter:{containers:filterContainer}))">
     {{ pod.name }}
     <div class="boxSmallFont">
       Namespace: {{ pod.namespace }} </br>
@@ -38,5 +40,6 @@
     </div>
 
   </div>
+  <p ng-show="!filteredPods.length">No Pods found</p>
 
 </div>

@@ -7,6 +7,21 @@ var app = express();
 var io = socket_io();
 app.io = io;
 
+var host = process.env.KUBEGUIHOST || process.env.KUBERNETES_SERVICE_HOST;
+var port = process.env.KUBEGUIPORT || process.env.KUBERNETES_SERVICE_PORT || '443';
+var username = process.env.KUBEGUIUSERNAME;
+var password = process.env.KUBEGUIPASSWORD;
+var url = 'https://' + host + ':' + port + '/api/v1';
+
+options = {
+  url: url,
+  auth: {
+    user: username,
+    password: password
+  },
+  rejectUnauthorized: false
+}
+
 var socketServer = require('./socket/socketServer.js')(io);
 
 app.use(express.static('public'));

@@ -1,7 +1,13 @@
 var express = require('express');
+var socket_io = require("socket.io");
 var routes = require('./routes/index');
 
 var app = express();
+
+var io = socket_io();
+app.io = io;
+
+var socketServer = require('./socket/socketServer.js')(io);
 
 app.use(express.static('public'));
 app.use('/', routes);

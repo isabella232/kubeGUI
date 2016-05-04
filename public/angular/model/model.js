@@ -56,9 +56,20 @@ kubeGUI.factory('model', function($rootScope) {
     if (jsonData.type == 'ADDED') {
       dataStore[kind].push(value);
     } else if (jsonData.type == 'MODIFIED') {
-
+      for (var i = 0; i < dataStore[kind].length; i++) {
+        if (dataStore[kind][i].uid == value.uid) {
+          dataStore[kind][i] = value;
+          break;
+        }
+      }
     } else if (jsonData.type == 'DELETED') {
-
+      console.log('DELETED');
+      for (var i = 0; i < dataStore[kind].length; i++) {
+        if (dataStore[kind][i].uid == value.uid) {
+          dataStore[kind].splice(i, 1);
+          break;
+        }
+      }
     }
     $rootScope.$apply();
   }

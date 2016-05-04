@@ -1,5 +1,8 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io('http://localhost:3000');
-  socket.emit('test', 'testEvent');
+  socket.emit('start', 'pods');
+  socket.on('update', function(data) {
+    console.log(data);
+  });
 </script>

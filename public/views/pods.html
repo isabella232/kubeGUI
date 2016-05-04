@@ -2,31 +2,45 @@
 
   <p class="smallFont">Filter:</p>
   <div class="filterBox">
-  <div class="input-group">
-    <span class="input-group-addon" id="basic-addon1">Name</span>
-    <input type="text" class="form-control" placeholder="Name of Pod" aria-describedby="basic-addon1" ng-model="filterName">
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">Name</span>
+      <input type="text" class="form-control" placeholder="Name of Pod" aria-describedby="basic-addon1" ng-model="filterName">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">Namespace</span>
+      <input type="text" class="form-control" placeholder="Namespace of pod" aria-describedby="basic-addon1" ng-model="filterNamespace">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">Nodename</span>
+      <input type="text" class="form-control" placeholder="Nodename where the Pod is running" aria-describedby="basic-addon1" ng-model="filterNodeName">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">HostIP</span>
+      <input type="text" class="form-control" placeholder="HostIP of Pod" aria-describedby="basic-addon1" ng-model="filterHostIP">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">Container</span>
+      <input type="text" class="form-control" placeholder="Container Name or Image" aria-describedby="basic-addon1" ng-model="filterContainer">
+    </div>
   </div>
-  <div class="input-group">
-    <span class="input-group-addon" id="basic-addon1">Namespace</span>
-    <input type="text" class="form-control" placeholder="Namespace of pod" aria-describedby="basic-addon1" ng-model="filterNamespace">
-  </div>
-  <div class="input-group">
-    <span class="input-group-addon" id="basic-addon1">NodeName</span>
-    <input type="text" class="form-control" placeholder="Nodename where the Pod is running" aria-describedby="basic-addon1" ng-model="filterNodeName">
-  </div>
-  <div class="input-group">
-    <span class="input-group-addon" id="basic-addon1">HostIP</span>
-    <input type="text" class="form-control" placeholder="HostIP of Pod" aria-describedby="basic-addon1" ng-model="filterHostIP">
-  </div>
-  <div class="input-group">
-    <span class="input-group-addon" id="basic-addon1">Container</span>
-    <input type="text" class="form-control" placeholder="Container Name or Image" aria-describedby="basic-addon1" ng-model="filterContainer">
+  <div class="order">
+  OrderBy:<br>
+  <select ng-model="orderBy" ng-init="orderBy='name'">
+    <option value="name">Name</option>
+    <option value="namespace">Namespace</option>
+    <option value="nodeName">Nodename</option>
+    <option value="hostIP">HostIP</option>
+  </select>
+  <br>
+  <div ng-init="orderAsc='false'">
+  Ascending: <input type="radio" ng-model="orderAsc" value="false"><br>
+  Descending: <input type="radio" ng-model="orderAsc" value="true">
   </div>
 </div>
 
   <div class="box" ng-repeat="pod in (filteredPods = (pods | filter:{name:filterName} | filter:{namespace:filterNamespace} |
   filter:{nodeName:filterNodeName} | filter:{hostIP:filterHostIP} |
-  filter:{containers:filterContainer}))">
+  filter:{containers:filterContainer} | orderBy:orderBy:orderAsc))">
     {{ pod.name }}
     <div class="boxSmallFont">
       Namespace: {{ pod.namespace }} </br>

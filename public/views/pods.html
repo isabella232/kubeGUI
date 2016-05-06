@@ -39,24 +39,32 @@
   </div>
 </div>
 
-  <div class="box" ng-repeat="pod in (filteredPods = (pods | filter:{name:filterName} | filter:{namespace:filterNamespace} |
-  filter:{nodeName:filterNodeName} | filter:{hostIP:filterHostIP} |
-  filter:{containers:filterContainer} | orderBy:orderBy:orderAsc))">
-    {{ pod.name }}
-    <div class="boxSmallFont">
-      Namespace: {{ pod.namespace }} </br>
-      <div ng-show="pod.nodeName && pod.hostIP">
-      Nodename: {{ pod.nodeName }} </br>
-      HostIP: {{ pod.hostIP }}
-      </div>
-    </div>
+  <table class="table table-bordered" ng-show="filteredPods.length">
 
-    <div class="innerBox" ng-repeat="container in pod.containers">
-      Name: {{ container.name }}
-      <br/> Image: {{ container.image }}
-    </div>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Namespace</th>
+        <th>Nodename</th>
+        <th>HostIP</th>
+        <th>Container</th>
+      </tr>
+    </thead>
 
-  </div>
+  <tbody>
+    <tr ng-repeat="pod in (filteredPods = (pods | filter:{name:filterName} | filter:{namespace:filterNamespace} |
+    filter:{nodeName:filterNodeName} | filter:{hostIP:filterHostIP} |
+    filter:{containers:filterContainer} | orderBy:orderBy:orderAsc))">
+      <th scope="row">{{ pod.name }}</th>
+      <td>{{ pod.namespace }}</td>
+      <td>{{ pod.nodeName }}</td>
+      <td>{{ pod.hostIP }}</td>
+      <td><div ng-repeat="container in pod.containers" style="margin-bottom: 5px;">
+        Name: {{ container.name }}
+        <br/> Image: {{ container.image }}
+      </div></td>
+    </tr>
+  </table>
   <br>
   <p ng-show="!filteredPods.length">No Pods found</p>
   </div>

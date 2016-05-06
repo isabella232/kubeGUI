@@ -1,5 +1,6 @@
 <div class="jumbotron text-center">
   <div data-ng-bind-html="status"></div>
+  <div ng-show="pods.length">
   <p class="smallFont">Filter:</p>
   <div class="filterBox">
     <div class="input-group">
@@ -44,8 +45,10 @@
     {{ pod.name }}
     <div class="boxSmallFont">
       Namespace: {{ pod.namespace }} </br>
+      <div ng-show="pod.nodeName && pod.hostIP">
       Nodename: {{ pod.nodeName }} </br>
       HostIP: {{ pod.hostIP }}
+      </div>
     </div>
 
     <div class="innerBox" ng-repeat="container in pod.containers">
@@ -56,5 +59,5 @@
   </div>
   <br>
   <p ng-show="!filteredPods.length">No Pods found</p>
-
+  </div>
 </div>

@@ -53,12 +53,7 @@ kubeGUI.factory('model', function($rootScope, $location) {
     } else if (jsonData.type == 'MODIFIED') {
       obj.modifyItem(value, kind);
     } else if (jsonData.type == 'DELETED') {
-      for (var i = 0; i < dataStore[kind].length; i++) {
-        if (dataStore[kind][i].uid == value.uid) {
-          dataStore[kind].splice(i, 1);
-          break;
-        }
-      }
+      obj.deleteItem(jsonData.object.metadata.uid, kind);
     }
     $rootScope.$apply();
   }
@@ -73,15 +68,20 @@ kubeGUI.factory('model', function($rootScope, $location) {
 
   obj.modifyItem = function(newValue, kind) {
     for (var i = 0; i < dataStore[kind].length; i++) {
-      if (dataStore[kind][i].uid == value.uid) {
-        dataStore[kind][i] = value;
+      if (dataStore[kind][i].uid == newValue.uid) {
+        dataStore[kind][i] = newValue;
         break;
       }
     }
   }
 
   obj.deleteItem = function(uid, kind) {
-
+    for (var i = 0; i < dataStore[kind].length; i++) {
+      if (dataStore[kind][i].uid == uid) {
+        dataStore[kind].splice(i, 1);
+        break;
+      }
+    }
   }
 
   obj.getContainers = function(containersIn) {

@@ -43,13 +43,7 @@ kubeGUI.factory('model', function($rootScope, $location) {
       value.nodeName = jsonData.object.spec.nodeName;
       value.hostIP = jsonData.object.status.hostIP;
       value.containers = [];
-      jsonData.object.spec.containers.forEach(function(entry) {
-        var container = {
-          name: entry.name,
-          image: entry.image
-        }
-        value.containers.push(container);
-      });
+      value.containers = obj.getContainers(jsonData.object.spec.containers);
     }
 
     if (jsonData.type == 'ADDED') {
@@ -79,6 +73,27 @@ kubeGUI.factory('model', function($rootScope, $location) {
 
   obj.parseService = function() {
     //parseService
+  }
+
+  obj.modifyItem = function(newValue, kind) {
+
+  }
+
+  obj.deleteItem = function(uid, kind) {
+
+  }
+
+  obj.getContainers = function(containersIn) {
+    var containersOut = [];
+
+    containersIn.forEach(function(entry) {
+      var container = {
+        name: entry.name,
+        image: entry.image
+      }
+      containersOut.push(container);
+    });
+    return containersOut;
   }
 
   obj.getEmptyDataStore = function() {

@@ -1,8 +1,9 @@
 <div class="jumbotron text-center">
   <div data-ng-bind-html="status"></div>
   <div ng-show="pods.length">
-  <p class="smallFont">Filter:</p>
-  <div class="filterBox">
+  <div class="wrapper">
+  <div class="filterBox" style="float: left;">
+    <p class="smallFont">Filter:</p>
     <div class="input-group">
       <span class="input-group-addon" id="basic-addon1">Name</span>
       <input type="text" class="form-control" placeholder="Name of Pod" aria-describedby="basic-addon1" ng-model="filterName">
@@ -24,7 +25,8 @@
       <input type="text" class="form-control" placeholder="Container Name or Image" aria-describedby="basic-addon1" ng-model="filterContainer">
     </div>
   </div>
-  <div class="order">
+
+  <div class="orderBy">
   OrderBy:<br>
   <select ng-model="orderBy" ng-init="orderBy='name'">
     <option value="name">Name</option>
@@ -38,7 +40,7 @@
   Descending: <input type="radio" ng-model="orderAsc" value="true">
   </div>
 </div>
-
+</div>
   <table class="table table-bordered" ng-show="filteredPods.length">
 
     <thead>
@@ -64,6 +66,7 @@
         <br/> Image: {{ container.image }}
       </div></td>
     </tr>
+  </tbody>
   </table>
   <br>
   <p ng-show="!filteredPods.length">No Pods found</p>

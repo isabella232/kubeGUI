@@ -1,16 +1,30 @@
-kubeGUI.factory('model', function($rootScope, $location) {
+kubeGUI.factory('model', function($rootScope, $location, $http) {
   var obj = {};
 
+  var status = '';
   var socket;
   var url = $location.absUrl().split('#')[0];
   var dataStore = {};
 
   obj.start = function(kind) {
     dataStore = obj.getEmptyDataStore();
-    var socket = io(url);
-    socket.emit('start', kind);
-    socket.on('update', function(data) {
-      obj.parse(data, kind);
+    status = 'Connecting...';
+
+    $http({
+      method: 'GET',
+      url: '/status'
+    }).then(function successCallback(response) {
+      status = response.data.status;
+      if(socket != null) {
+        socket.disconnect();
+      }
+      socket = io(url);
+      socket.emit('start', kind);
+      socket.on('update', function(data) {
+        obj.parse(data, kind);
+      });
+    }, function errorCallback(response) {
+      status = response.data.status;
     });
   }
 
@@ -106,6 +120,10 @@ kubeGUI.factory('model', function($rootScope, $location) {
 
   obj.getDataStore = function(kind) {
     return dataStore[kind];
+  }
+
+  obj.getStatus = function() {
+    return status;
   }
 
   return obj;

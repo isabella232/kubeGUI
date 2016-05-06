@@ -11,6 +11,9 @@ kubeGUI.controller('homeController', function($scope) {
 kubeGUI.controller('podsController', function($scope, model) {
   model.start('pods');
   $scope.pods = model.getDataStore('pods');
+  $scope.$watch(function() {
+    $scope.status = model.getStatus();
+  });
 });
 
 kubeGUI.controller('rcController', function($scope) {

@@ -12,7 +12,6 @@ kubeGUI.factory('model', function($rootScope, $location) {
     socket.on('update', function(data) {
       obj.parse(data, kind);
     });
-    //start
   }
 
   obj.parse = function(data, kind) {
@@ -23,6 +22,11 @@ kubeGUI.factory('model', function($rootScope, $location) {
       uid: jsonData.object.metadata.uid,
       name: jsonData.object.metadata.name,
       namespace: jsonData.object.metadata.namespace
+    }
+
+    if(kind != 'services' && jsonData.type != 'DELETED') {
+      value.containers = [];
+      value.containers = obj.getContainers(jsonData.object.spec.containers);
     }
 
     switch (kind) {
@@ -39,24 +43,16 @@ kubeGUI.factory('model', function($rootScope, $location) {
   }
 
   obj.parsePod = function(kind, jsonData, value) {
-    if (jsonData.type == 'ADDED' ||  jsonData.type == 'MODIFIED') {
+    if (jsonData.type == 'ADDED' || jsonData.type == 'MODIFIED') {
       value.nodeName = jsonData.object.spec.nodeName;
       value.hostIP = jsonData.object.status.hostIP;
-      value.containers = [];
-      value.containers = obj.getContainers(jsonData.object.spec.containers);
     }
 
     if (jsonData.type == 'ADDED') {
       dataStore[kind].push(value);
     } else if (jsonData.type == 'MODIFIED') {
-      for (var i = 0; i < dataStore[kind].length; i++) {
-        if (dataStore[kind][i].uid == value.uid) {
-          dataStore[kind][i] = value;
-          break;
-        }
-      }
+      obj.modifyItem(value, kind);
     } else if (jsonData.type == 'DELETED') {
-      console.log('DELETED');
       for (var i = 0; i < dataStore[kind].length; i++) {
         if (dataStore[kind][i].uid == value.uid) {
           dataStore[kind].splice(i, 1);
@@ -76,7 +72,12 @@ kubeGUI.factory('model', function($rootScope, $location) {
   }
 
   obj.modifyItem = function(newValue, kind) {
-
+    for (var i = 0; i < dataStore[kind].length; i++) {
+      if (dataStore[kind][i].uid == value.uid) {
+        dataStore[kind][i] = value;
+        break;
+      }
+    }
   }
 
   obj.deleteItem = function(uid, kind) {
@@ -85,7 +86,6 @@ kubeGUI.factory('model', function($rootScope, $location) {
 
   obj.getContainers = function(containersIn) {
     var containersOut = [];
-
     containersIn.forEach(function(entry) {
       var container = {
         name: entry.name,

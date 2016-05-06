@@ -16,8 +16,12 @@ kubeGUI.controller('podsController', function($scope, model, $sce) {
   });
 });
 
-kubeGUI.controller('rcController', function($scope) {
-  $scope.message = 'Replicationcontrollers';
+kubeGUI.controller('rcController', function($scope, model, $sce) {
+  model.start('replicationcontrollers');
+  $scope.replicationcontrollers = model.getDataStore('replicationcontrollers');
+  $scope.$watch(function() {
+    $scope.status = $sce.trustAsHtml(model.getStatus());
+  });
 });
 
 kubeGUI.controller('servicesController', function($scope) {

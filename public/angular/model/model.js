@@ -31,8 +31,7 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
   }
 
   obj.parse = function(data, kind) {
-    var jsonData;
-    jsonData = JSON.parse(data);
+    var jsonData = JSON.parse(data);
 
     var value = {
       uid: jsonData.object.metadata.uid,
@@ -42,7 +41,12 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
 
     if(kind != 'services' && jsonData.type != 'DELETED') {
       value.containers = [];
-      value.containers = obj.getContainers(jsonData.object.spec.containers);
+      if(kind == 'pods') {
+        value.containers = obj.getContainers(jsonData.object.spec.containers);
+      }
+      else {
+        value.containers = obj.getContainers(jsonData.object.spec.template.spec.containers);
+      }
     }
 
     switch (kind) {
@@ -50,7 +54,7 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
         obj.parsePod(kind, jsonData, value);
         break;
       case 'replicationcontrollers':
-        //Parse RC
+        obj.parseRC(kind, jsonData, value);
         break;
       case 'services':
         //Parse SVC
@@ -58,6 +62,13 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
     }
   }
 
+  /**
+ * Adds, deleted or modifies a pod to the dataStore
+ * @param {String} kind
+ * @param {Object} jsonData
+ * @param {Object} value
+ * @return {void}
+ */
   obj.parsePod = function(kind, jsonData, value) {
     if (jsonData.type == 'ADDED' || jsonData.type == 'MODIFIED') {
       value.nodeName = jsonData.object.spec.nodeName;
@@ -74,14 +85,38 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
     $rootScope.$apply();
   }
 
-  obj.parseRC = function() {
-    //parseRC
+  /**
+ * Adds, deleted or modifies a replicationcontroller to the dataStore
+ * @param {String} kind
+ * @param {Object} jsonData
+ * @param {Object} value
+ * @return {void}
+ */
+  obj.parseRC = function(kind, jsonData, value) {
+    if(jsonData.type !== 'DELETED') {
+      value.desiredReplicas = jsonData.object.spec.replicas;
+      value.realReplicas = jsonData.object.status.replicas;
+    }
+
+    if (jsonData.type == 'ADDED') {
+      dataStore[kind].push(value);
+    } else if (jsonData.type == 'MODIFIED') {
+      obj.modifyItem(value, kind);
+    } else if (jsonData.type == 'DELETED') {
+      obj.deleteItem(jsonData.object.metadata.uid, kind);
+    }
+    $rootScope.$apply();
   }
 
   obj.parseService = function() {
     //parseService
   }
-
+  /**
+ * Adds, deleted or modifies a replicationcontroller to the dataStore
+ * @param {Object} newValue
+ * @param {String} kind
+ * @return {void}
+ */
   obj.modifyItem = function(newValue, kind) {
     for (var i = 0; i < dataStore[kind].length; i++) {
       if (dataStore[kind][i].uid == newValue.uid) {

@@ -1,3 +1,61 @@
 <div class="jumbotron text-center">
-  <p>{{ message }}</p>
+  <div data-ng-bind-html="status"></div>
+  <div ng-show="replicationcontrollers.length">
+  <p class="smallFont">Filter:</p>
+  <div class="filterBox">
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">Name</span>
+      <input type="text" class="form-control" placeholder="Name of RC" aria-describedby="basic-addon1" ng-model="filterName">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">Namespace</span>
+      <input type="text" class="form-control" placeholder="Namespace of RC" aria-describedby="basic-addon1" ng-model="filterNamespace">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">Desired replicas</span>
+      <input type="text" class="form-control" placeholder="Desired amount of replications" aria-describedby="basic-addon1" ng-model="filterDesiredReplicas">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">Real replicas </span>
+      <input type="text" class="form-control" placeholder="Real amount of replications" aria-describedby="basic-addon1" ng-model="filterRealReplicas">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">Container</span>
+      <input type="text" class="form-control" placeholder="Container Name or Image" aria-describedby="basic-addon1" ng-model="filterContainer">
+    </div>
+  </div>
+  <div class="order">
+  OrderBy:<br>
+  <select ng-model="orderBy" ng-init="orderBy='name'">
+    <option value="name">Name</option>
+    <option value="namespace">Namespace</option>
+    <option value="desiredReplicas">Desired Replicas</option>
+    <option value="realReplicas">Real Replicas</option>
+  </select>
+  <br>
+  <div ng-init="orderAsc='false'">
+  Ascending: <input type="radio" ng-model="orderAsc" value="false"><br>
+  Descending: <input type="radio" ng-model="orderAsc" value="true">
+  </div>
+</div>
+
+    <div class="box" ng-repeat="rc in (filteredRCs = (replicationcontrollers | filter:{name:filterName} | filter:{namespace:filterNamespace} |
+    filter:{desiredReplicas:filterDesiredReplicas} | filter:{realReplicas:filterRealReplicas} |
+    filter:{containers:filterContainer} | orderBy:orderBy:orderAsc))">
+    {{ rc.name }}
+    <div class="boxSmallFont">
+      Namespace: {{ rc.namespace }} </br>
+      Desired RC: {{ rc.desiredReplicas }} </br>
+      Real RC: {{ rc.realReplicas }}
+    </div>
+
+    <div class="innerBox" ng-repeat="container in rc.containers">
+      Name: {{ container.name }}
+      <br/> Image: {{ container.image }}
+    </div>
+
+  </div>
+  <br>
+  <p ng-show="!filteredRCs.length">No Pods found</p>
+  </div>
 </div>

@@ -14,7 +14,8 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
       method: 'GET',
       url: '/status'
     }).then(function successCallback(response) {
-      status = response.data.status;
+      status = response.data.status +
+      ' <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>';
       if(socket != null) {
         socket.disconnect();
       }
@@ -24,7 +25,8 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
         obj.parse(data, kind);
       });
     }, function errorCallback(response) {
-      status = response.data.status;
+      status = response.data.status +
+      ' <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>';
     });
   }
 

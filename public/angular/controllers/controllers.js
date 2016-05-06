@@ -8,11 +8,11 @@ kubeGUI.controller('homeController', function($scope) {
   $scope.message = 'Home';
 });
 
-kubeGUI.controller('podsController', function($scope, model) {
+kubeGUI.controller('podsController', function($scope, model, $sce) {
   model.start('pods');
   $scope.pods = model.getDataStore('pods');
   $scope.$watch(function() {
-    $scope.status = model.getStatus();
+    $scope.status = $sce.trustAsHtml(model.getStatus());
   });
 });
 

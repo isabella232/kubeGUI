@@ -13,7 +13,7 @@ router.get('/status', function(req, res, next) {
     }
     else {
       res.writeHead(503);
-      res.end(JSON.stringify({error: true, status: "Could not connect to Kubernetes"}));
+      res.end(JSON.stringify({error: true, status: "Couldn't connect to Kubernetes"}));
     }
   })
 });

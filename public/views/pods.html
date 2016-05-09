@@ -1,32 +1,40 @@
 <div class="jumbotron text-center">
   <div data-ng-bind-html="status"></div>
   <div ng-show="pods.length">
-  <div class="wrapper">
-  <div class="filterBox" style="float: left;">
-    <p class="smallFont">Filter:</p>
+
+  <p class="smallFont">Filter:</p>
+  <div class="row">
+    <div class="col-lg-2">
     <div class="input-group">
       <span class="input-group-addon" id="basic-addon1">Name</span>
       <input type="text" class="form-control" placeholder="Name of Pod" aria-describedby="basic-addon1" ng-model="filterName">
     </div>
+    </div>
+    <div class="col-lg-2">
     <div class="input-group">
       <span class="input-group-addon" id="basic-addon1">Namespace</span>
       <input type="text" class="form-control" placeholder="Namespace of pod" aria-describedby="basic-addon1" ng-model="filterNamespace">
     </div>
+    </div>
+    <div class="col-lg-2">
     <div class="input-group">
       <span class="input-group-addon" id="basic-addon1">Nodename</span>
       <input type="text" class="form-control" placeholder="Nodename where the Pod is running" aria-describedby="basic-addon1" ng-model="filterNodeName">
     </div>
+    </div>
+    <div class="col-lg-2">
     <div class="input-group">
       <span class="input-group-addon" id="basic-addon1">HostIP</span>
       <input type="text" class="form-control" placeholder="HostIP of Pod" aria-describedby="basic-addon1" ng-model="filterHostIP">
     </div>
+    </div>
+    <div class="col-lg-2">
     <div class="input-group">
       <span class="input-group-addon" id="basic-addon1">Container</span>
       <input type="text" class="form-control" placeholder="Container Name or Image" aria-describedby="basic-addon1" ng-model="filterContainer">
     </div>
+    </div>
   </div>
-
-</div>
   <table class="table table-bordered table-striped" ng-show="filteredPods.length">
 
     <thead>

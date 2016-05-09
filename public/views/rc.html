@@ -19,13 +19,13 @@
     <div class="col-lg-2">
       <div class="input-group">
         <span class="input-group-addon" id="basic-addon1">Desired replicas</span>
-        <input type="text" class="form-control" placeholder="Desired amount of replications" aria-describedby="basic-addon1" ng-model="filterDesiredReplicas">
+        <input type="number" min="1" required class="form-control" placeholder="Desired amount of replications" aria-describedby="basic-addon1" ng-model="filterDesiredReplicas">
       </div>
     </div>
     <div class="col-lg-2">
       <div class="input-group">
         <span class="input-group-addon" id="basic-addon1">Real replicas </span>
-        <input type="text" class="form-control" placeholder="Real amount of replications" aria-describedby="basic-addon1" ng-model="filterRealReplicas">
+        <input type="number" min="1" required class="form-control" placeholder="Real amount of replications" aria-describedby="basic-addon1" ng-model="filterRealReplicas">
       </div>
     </div>
     <div class="col-lg-2">

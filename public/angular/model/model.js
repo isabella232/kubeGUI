@@ -114,12 +114,19 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
       value.type = jsonData.object.spec.type;
       value.ports = obj.getPorts(jsonData.object.spec.ports);
     }
-    dataStore[kind].push(value);
+
+    if(jsonData.type == 'ADDED') {
+      dataStore[kind].push(value);
+    } else if (jsonData.type == 'MODIFIED') {
+      obj.modifyItem(value, kind);
+    } else if (jsonData.type == 'DELETED') {
+      obj.deleteItem(value.uid, kind);
+    }
     $rootScope.$apply();
   }
-  
+
   /**
- * Adds, deleted or modifies a replicationcontroller to the dataStore
+ * Modified item by saving the newValue to a specific element in the dataStore
  * @param {Object} newValue
  * @param {String} kind
  * @return {void}
@@ -133,6 +140,12 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
     }
   }
 
+  /**
+ * Deletes item of the dataStore by given uid
+ * @param {String} uid
+ * @param {String} kind
+ * @return {void}
+ */
   obj.deleteItem = function(uid, kind) {
     for (var i = 0; i < dataStore[kind].length; i++) {
       if (dataStore[kind][i].uid == uid) {

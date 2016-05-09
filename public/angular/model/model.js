@@ -57,7 +57,7 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
         obj.parseRC(kind, jsonData, value);
         break;
       case 'services':
-        //Parse SVC
+        obj.parseService(kind, jsonData, value);
         break;
     }
   }
@@ -70,7 +70,7 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
  * @return {void}
  */
   obj.parsePod = function(kind, jsonData, value) {
-    if (jsonData.type !== 'DELETED') {
+    if (jsonData.type != 'DELETED') {
       value.nodeName = jsonData.object.spec.nodeName;
       value.hostIP = jsonData.object.status.hostIP;
     }
@@ -93,7 +93,7 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
  * @return {void}
  */
   obj.parseRC = function(kind, jsonData, value) {
-    if(jsonData.type !== 'DELETED') {
+    if(jsonData.type != 'DELETED') {
       value.desiredReplicas = jsonData.object.spec.replicas;
       value.realReplicas = jsonData.object.status.replicas;
     }
@@ -108,9 +108,16 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
     $rootScope.$apply();
   }
 
-  obj.parseService = function() {
-    //parseService
+  obj.parseService = function(kind, jsonData, value) {
+    if(jsonData.type != 'DELETED') {
+      value.clusterIP = jsonData.object.spec.clusterIP;
+      value.type = jsonData.object.spec.type;
+      value.ports = obj.getPorts(jsonData.object.spec.ports);
+    }
+    dataStore[kind].push(value);
+    $rootScope.$apply();
   }
+  
   /**
  * Adds, deleted or modifies a replicationcontroller to the dataStore
  * @param {Object} newValue
@@ -145,6 +152,20 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
       containersOut.push(container);
     });
     return containersOut;
+  }
+
+  obj.getPorts = function(portsIn) {
+    var portsOut = [];
+    portsIn.forEach(function(entry) {
+      var port = {
+        name: entry.name,
+        protocol: entry.protocol,
+        port: entry.port,
+        targetPort: entry.targetPort
+      }
+      portsOut.push(port);
+    });
+    return portsOut;
   }
 
   obj.getEmptyDataStore = function() {

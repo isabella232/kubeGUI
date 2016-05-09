@@ -24,6 +24,10 @@ kubeGUI.controller('rcController', function($scope, model, $sce) {
   });
 });
 
-kubeGUI.controller('servicesController', function($scope) {
-  $scope.message = 'Services';
+kubeGUI.controller('servicesController', function($scope, model, $sce) {
+  model.start('services');
+  $scope.services = model.getDataStore('services');
+  $scope.$watch(function() {
+    $scope.status = $sce.trustAsHtml(model.getStatus());
+  });
 });

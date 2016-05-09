@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var loginModule = require('../config/loginOptions');
 
 /* GET status page. */
 router.get('/status', function(req, res, next) {
-  var statusOptions = JSON.parse(JSON.stringify(options));
+  var statusOptions = JSON.parse(JSON.stringify(loginModule.options));
   statusOptions.timeout = 1000;
   request(statusOptions, function(error, response, body) {
     if (!error && response.statusCode == 200) {

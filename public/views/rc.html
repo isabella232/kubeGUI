@@ -37,7 +37,7 @@
   </div>
   <table class="table table-bordered table-striped" ng-show="filteredRCs.length">
 
-    <thead>
+    <thead ng-init="orderBy='name';orderAsc=false">
       <tr>
         <th><a href="" ng-click="orderBy='name';orderAsc=!orderAsc">
           Name

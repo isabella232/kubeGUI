@@ -112,7 +112,7 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
     if(jsonData.type != 'DELETED') {
       value.clusterIP = jsonData.object.spec.clusterIP;
       value.type = jsonData.object.spec.type;
-      value.ports = obj.getPorts(jsonData.object.spec.ports);
+      value.ports = jsonData.object.spec.ports;
     }
 
     if(jsonData.type == 'ADDED') {
@@ -165,20 +165,6 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
       containersOut.push(container);
     });
     return containersOut;
-  }
-
-  obj.getPorts = function(portsIn) {
-    var portsOut = [];
-    portsIn.forEach(function(entry) {
-      var port = {
-        name: entry.name,
-        protocol: entry.protocol,
-        port: entry.port,
-        targetPort: entry.targetPort
-      }
-      portsOut.push(port);
-    });
-    return portsOut;
   }
 
   obj.getEmptyDataStore = function() {

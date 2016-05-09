@@ -26,20 +26,6 @@
     </div>
   </div>
 
-  <div class="orderBy">
-  OrderBy:<br>
-  <select ng-model="orderBy" ng-init="orderBy='name'">
-    <option value="name">Name</option>
-    <option value="namespace">Namespace</option>
-    <option value="nodeName">Nodename</option>
-    <option value="hostIP">HostIP</option>
-  </select>
-  <br>
-  <div ng-init="orderAsc='false'">
-  Ascending: <input type="radio" ng-model="orderAsc" value="false"><br>
-  Descending: <input type="radio" ng-model="orderAsc" value="true">
-  </div>
-</div>
 </div>
   <table class="table table-bordered table-striped" ng-show="filteredPods.length">
 

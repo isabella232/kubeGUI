@@ -12,7 +12,7 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
 
     $http({
       method: 'GET',
-      url: '/status'
+      url: url + 'status'
     }).then(function successCallback(response) {
       status = response.data.status +
       ' <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>';

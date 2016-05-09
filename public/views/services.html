@@ -43,8 +43,8 @@
       <td>{{ service.clusterIP }}</td>
       <td>{{ service.type }}</td>
       <td><div ng-repeat="port in service.ports" style="margin-bottom: 10px;">
-        Name: {{ port.name }}
-        <br/> Protocol: {{ port.protocol }}
+        <div ng-show="port.name">Name: {{ port.name }}<br/></div>
+        Protocol: {{ port.protocol }}
         <br/> Port: {{ port.port }}
         <br/> Targetport: {{ port.targetPort }}
       </div></td>

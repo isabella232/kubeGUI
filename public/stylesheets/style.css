@@ -66,3 +66,11 @@ thead th {
   background-color: blue;
   color: white;
 }
+
+table a {
+  color: white;
+}
+
+table a:visited {
+  color: white;
+}

@@ -33,18 +33,28 @@
       <tr>
         <th><a href="" ng-click="orderBy='name';orderAsc=!orderAsc">
           Name
+          <span ng-show="orderBy=='name' && !orderAsc" class="fa fa-caret-down"></span>
+          <span ng-show="orderBy=='name' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
         <th><a href="" ng-click="orderBy='namespace';orderAsc=!orderAsc">
           Namespace
+          <span ng-show="orderBy=='namespace' && !orderAsc" class="fa fa-caret-down"></span>
+          <span ng-show="orderBy=='namespace' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
         <th><a href="" ng-click="orderBy='nodeName';orderAsc=!orderAsc">
           Nodename
+          <span ng-show="orderBy=='nodeName' && !orderAsc" class="fa fa-caret-down"></span>
+          <span ng-show="orderBy=='nodeName' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
         <th><a href="" ng-click="orderBy='hostIP';orderAsc=!orderAsc">
           HostIP
+          <span ng-show="orderBy=='hostIP' && !orderAsc" class="fa fa-caret-down"></span>
+          <span ng-show="orderBy=='hostIP' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
         <th><a href="" ng-click="orderBy='containers';orderAsc=!orderAsc">
           Container
+          <span ng-show="orderBy=='containers' && !orderAsc" class="fa fa-caret-down"></span>
+          <span ng-show="orderBy=='containers' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
       </tr>
     </thead>

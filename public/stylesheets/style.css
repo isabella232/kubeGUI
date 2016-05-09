@@ -65,6 +65,7 @@
 thead th {
   background-color: blue;
   color: white;
+  white-space: nowrap;
 }
 
 table a {

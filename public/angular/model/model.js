@@ -70,7 +70,7 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
  * @return {void}
  */
   obj.parsePod = function(kind, jsonData, value) {
-    if (jsonData.type == 'ADDED' || jsonData.type == 'MODIFIED') {
+    if (jsonData.type !== 'DELETED') {
       value.nodeName = jsonData.object.spec.nodeName;
       value.hostIP = jsonData.object.status.hostIP;
     }

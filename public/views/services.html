@@ -1,4 +1,57 @@
 <div class="jumbotron text-center">
   <div data-ng-bind-html="status"></div>
-  <p>{{ services }}</p>
+  <div ng-show="services.length">
+
+  <table class="table table-bordered table-striped" ng-show="filteredServices.length">
+
+    <thead ng-init="orderBy='name';orderAsc=false;">
+      <tr>
+        <th><a href="" ng-click="orderBy='name';orderAsc=!orderAsc">
+          Name
+          <span ng-show="orderBy=='name' && !orderAsc" class="fa fa-caret-down"></span>
+          <span ng-show="orderBy=='name' && orderAsc" class="fa fa-caret-up"></span>
+        </a></th>
+        <th><a href="" ng-click="orderBy='namespace';orderAsc=!orderAsc">
+          Namespace
+          <span ng-show="orderBy=='namespace' && !orderAsc" class="fa fa-caret-down"></span>
+          <span ng-show="orderBy=='namespace' && orderAsc" class="fa fa-caret-up"></span>
+        </a></th>
+        <th><a href="" ng-click="orderBy='clusterIP';orderAsc=!orderAsc">
+          ClusterIP
+          <span ng-show="orderBy=='clusterIP' && !orderAsc" class="fa fa-caret-down"></span>
+          <span ng-show="orderBy=='clusterIP' && orderAsc" class="fa fa-caret-up"></span>
+        </a></th>
+        <th><a href="" ng-click="orderBy='type';orderAsc=!orderAsc">
+          Type
+          <span ng-show="orderBy=='type' && !orderAsc" class="fa fa-caret-down"></span>
+          <span ng-show="orderBy=='type' && orderAsc" class="fa fa-caret-up"></span>
+        </a></th>
+        <th><a href="" ng-click="orderBy='ports';orderAsc=!orderAsc">
+          Container
+          <span ng-show="orderBy=='ports' && !orderAsc" class="fa fa-caret-down"></span>
+          <span ng-show="orderBy=='ports' && orderAsc" class="fa fa-caret-up"></span>
+        </a></th>
+      </tr>
+    </thead>
+
+  <tbody>
+    <tr ng-repeat="service in (filteredServices = (services | filter:{name:filterName} | filter:{namespace:filterNamespace} |
+    filter:{clusterIP:filterClusterIP} | filter:{type:filterType} |
+    filter:{ports:filterPorts} | orderBy:orderBy:orderAsc))">
+      <th scope="row">{{ service.name }}</th>
+      <td>{{ service.namespace }}</td>
+      <td>{{ service.clusterIP }}</td>
+      <td>{{ service.type }}</td>
+      <td><div ng-repeat="port in service.ports" style="margin-bottom: 10px;">
+        Name: {{ port.name }}
+        <br/> Protocol: {{ port.protocol }}
+        <br/> Port: {{ port.port }}
+        <br/> Targetport: {{ port.targetPort }}
+      </div></td>
+    </tr>
+  </tbody>
+  </table>
+  <br>
+  <p ng-show="!filteredServices.length">No Service found</p>
+  </div>
 </div>

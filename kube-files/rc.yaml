@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: kubegui-controller
+spec:
+  replicas: 1
+  selector:
+    app: kubegui
+  template:
+    metadata:
+      labels:
+        app: kubegui
+    spec:
+      containers:
+      - name: kubegui
+        image: kubegui/kubegui
+        # Set IfNotPresent or Never if you don't want to force pull
+        imagePullPolicy: Always
+        env:
+            # No http(s), only IP, eg. 246.149.18.142
+            # Remove for the default host (IP of API Server where this pod/RC is running)
+            - name: KUBEGUIHOST
+              value: KubernetesAPIHost
+            # Remove for default port 443
+            - name: KUBEGUIPORT
+              value: KubernetesAPIPort
+            # Put your API Username here
+            - name: KUBEGUIUSERNAME
+              value: KubernetesAPIUsername
+            # Pur your API Password here
+            - name: KUBEGUIPASSWORD
+              value: KubernetesAPIPassword
+        ports:
+        - containerPort: 3000

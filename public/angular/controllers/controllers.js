@@ -4,10 +4,6 @@ kubeGUI.controller('HeaderController', function($scope, $location) {
   };
 });
 
-kubeGUI.controller('homeController', function($scope) {
-  $scope.message = 'Home';
-});
-
 kubeGUI.controller('podsController', function($scope, model, $sce) {
   model.start('pods');
   $scope.pods = model.getDataStore('pods');

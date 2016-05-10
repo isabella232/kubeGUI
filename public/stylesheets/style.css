@@ -9,38 +9,6 @@
 .navbar li a {
   padding: 20px;
 }
-.box {
-  width: 500px;
-  background-color: blue;
-  color: white;
-  margin: auto;
-  margin-top: 20px;
-  border-radius: 5px;
-  display: table;
-  height: auto;
-  line-height: normal;
-}
-.boxSmallFont {
-  margin-top: 10px;
-  font-size: 15px;
-  line-height: 100%;
-}
-.innerBox {
-  background-color: white;
-  color: black;
-  margin: 7px;
-  padding: 5px;
-  height: auto;
-  width: auto;
-  font-size: 17px;
-  line-height:25px;
-  border-radius: 3px;
-}
-
-.filterBox {
-  width: 250px;
-  margin-right: 10px;
-}
 
 .smallFont {
   font-size: 15px;
@@ -50,20 +18,8 @@
   margin-bottom: 10px;
 }
 
-.wrapper {
-  margin: auto;
-  width: 400px;
-  height: 200px;
-}
-
-.orderBy {
-  margin-top: 15%;
-  float: left;
-  font-size: 16px;
-}
-
 thead th {
-  background-color: blue;
+  background-color: #3e67af;
   color: white;
   white-space: nowrap;
 }

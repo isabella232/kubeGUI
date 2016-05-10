@@ -1,14 +1,19 @@
+// Dependencies
 var express = require('express');
 var socket_io = require("socket.io");
 var routes = require('./routes/index');
 
+// Instance of express
 var app = express();
 
+// Socket.io
 var io = socket_io();
 app.io = io;
 
+// Require the socketServer
 var socketServer = require('./socket/socketServer.js')(io);
 
+// Set public folder for static files
 app.use(express.static('public'));
 app.use('/', routes);
 

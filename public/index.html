@@ -1,11 +1,12 @@
+<!-- Declare app -->
 <html ng-app="kubeGUI">
-
 <head>
+  <!-- Load all CSS files -->
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css" />
   <link rel="stylesheet" href="/stylesheets/style.css" />
-
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+  <!-- Load all javascript files -->
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/angular/module.js"></script>
@@ -26,6 +27,8 @@
           <a class="navbar-brand" href="/"><img src="/images/logo_short.png" alt="Logo of page"></a>
         </div>
 
+        <!-- Call function isActive, which compares location. If true, then the class
+        is active = highlighted -->
         <ul class="nav navbar-nav navbar-right" ng-controller="HeaderController">
           <li ng-class="{ active: isActive('/')}"><a href="#"><i class="fa fa-home"></i> Home</a></li>
           <li ng-class="{ active: isActive('/pods')}"><a href="#pods"><i class="fa fa-shield"></i> Pods</a></li>
@@ -38,6 +41,7 @@
 
   <div id="main">
 
+    <!-- Load view into index.html -->
     <div ng-view></div>
 
   </div>

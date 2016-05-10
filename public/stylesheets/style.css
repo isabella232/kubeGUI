@@ -1,33 +1,39 @@
+/* Navbar classes for setting the navigationbar and logo correctly */
 .navbar-brand {
-  padding: 0px; /* firefox bug fix */
+  padding: 0px;
 }
 .navbar-brand>img {
   height: 60px;
-  padding: 3px; /* firefox bug fix */
+  padding: 3px;
   width: auto;
 }
 .navbar li a {
   padding: 20px;
 }
 
+/* Small font for filter title */
 .smallFont {
   font-size: 15px;
 }
 
+/* Space between input fields and table */
 .input-group {
   margin-bottom: 10px;
 }
 
+/* Table header color and prevent linebreak */
 thead th {
   background-color: #3e67af;
   color: white;
   white-space: nowrap;
 }
 
+/* Table header color for links */
 table a {
   color: white;
 }
 
+/* Table header color for visited links*/
 table a:visited {
   color: white;
 }

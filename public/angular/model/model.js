@@ -3,24 +3,37 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
 
   var status = '';
   var socket;
+  /* Get URL, split it at the hashtag and get the first part. Needed for requests and
+   * socket connection */
   var url = $location.absUrl().split('#')[0];
   var dataStore = {};
 
+  /**
+ * HTTP Request to check status of Kubernetes Cluster, start socket connection
+ * when status request was successful
+ * @param {String} kind
+ * @return {void}
+ */
   obj.start = function(kind) {
+    // Clear dataStore
     dataStore = obj.getEmptyDataStore();
     status = 'Connecting...';
 
+    // HTTP Request /status. Append green tick or red cross.
     $http({
       method: 'GET',
       url: url + 'status'
     }).then(function successCallback(response) {
       status = response.data.status +
       ' <i class="fa fa-check" aria-hidden="true" style="color: green;"></i>';
+      // Remove any existing socket connection
       if(socket != null) {
         socket.disconnect();
       }
+      // Start connection and send start event to start the watch request of the webserver
       socket = io(url);
       socket.emit('start', kind);
+      // When an update comes, call parse.
       socket.on('update', function(data) {
         obj.parse(data, kind);
       });
@@ -30,15 +43,26 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
     });
   }
 
+  /**
+ * Parses the String (data) into JSON, creates value object,
+ * switch case for specific parse function
+ * @param {String} data
+ * @param {String} kind
+ * @return {void}
+ */
   obj.parse = function(data, kind) {
     var jsonData = JSON.parse(data);
 
+    // Create value object with important values
     var value = {
       uid: jsonData.object.metadata.uid,
       name: jsonData.object.metadata.name,
       namespace: jsonData.object.metadata.namespace
     }
 
+    /* If it's a pod or a replicationcontroller and it's not "DELETED", then add
+     * the containers
+    */
     if(kind != 'services' && jsonData.type != 'DELETED') {
       value.containers = [];
       if(kind == 'pods') {
@@ -49,6 +73,7 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
       }
     }
 
+    // Call the specific parse function
     switch (kind) {
       case 'pods':
         obj.parsePod(kind, jsonData, value);
@@ -63,13 +88,14 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
   }
 
   /**
- * Adds, deleted or modifies a pod to the dataStore
+ * Adds, modifies or deletes a pod to / from the dataStore
  * @param {String} kind
  * @param {Object} jsonData
  * @param {Object} value
  * @return {void}
  */
   obj.parsePod = function(kind, jsonData, value) {
+    // If not deleted, then add more information
     if (jsonData.type != 'DELETED') {
       value.nodeName = jsonData.object.spec.nodeName;
       value.hostIP = jsonData.object.status.hostIP;
@@ -82,17 +108,19 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
     } else if (jsonData.type == 'DELETED') {
       obj.deleteItem(jsonData.object.metadata.uid, kind);
     }
+    // Refresh
     $rootScope.$apply();
   }
 
   /**
- * Adds, deleted or modifies a replicationcontroller to the dataStore
+ * Adds, modifies or deletes a replicationcontroller to / from the dataStore
  * @param {String} kind
  * @param {Object} jsonData
  * @param {Object} value
  * @return {void}
  */
   obj.parseRC = function(kind, jsonData, value) {
+    // If not deleted, then add more information
     if(jsonData.type != 'DELETED') {
       value.desiredReplicas = jsonData.object.spec.replicas;
       value.realReplicas = jsonData.object.status.replicas;
@@ -105,10 +133,19 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
     } else if (jsonData.type == 'DELETED') {
       obj.deleteItem(jsonData.object.metadata.uid, kind);
     }
+    // Refresh
     $rootScope.$apply();
   }
 
+  /**
+ * Adds, modifies or deletes a service to / from the dataStore
+ * @param {String} kind
+ * @param {Object} jsonData
+ * @param {Object} value
+ * @return {void}
+ */
   obj.parseService = function(kind, jsonData, value) {
+    // If not deleted, then add more informations
     if(jsonData.type != 'DELETED') {
       value.clusterIP = jsonData.object.spec.clusterIP;
       value.type = jsonData.object.spec.type;
@@ -122,11 +159,12 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
     } else if (jsonData.type == 'DELETED') {
       obj.deleteItem(value.uid, kind);
     }
+    // Refresh
     $rootScope.$apply();
   }
 
   /**
- * Modified item by saving the newValue to a specific element in the dataStore
+ * Modifies item by saving the newValue to a specific element in the dataStore
  * @param {Object} newValue
  * @param {String} kind
  * @return {void}
@@ -155,6 +193,11 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
     }
   }
 
+  /**
+ * Create Array of Containers with name and image and returns it
+ * @param {Array} containersIn
+ * @return {Array} containersOut
+ */
   obj.getContainers = function(containersIn) {
     var containersOut = [];
     containersIn.forEach(function(entry) {
@@ -167,6 +210,10 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
     return containersOut;
   }
 
+  /**
+ * Returns an empty dataStore for the start function to clear the dataStore
+ * @return {Object}
+ */
   obj.getEmptyDataStore = function() {
     return {
       pods: [],
@@ -175,10 +222,19 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
     }
   }
 
+  /**
+ * Get function for Controller. Returns specific Array of dataStore object by given kind
+ * @param {String} kind
+ * @return {Array}
+ */
   obj.getDataStore = function(kind) {
     return dataStore[kind];
   }
 
+  /**
+ * Returns the status variable to show the status of the connection
+ * @return {String} status
+ */
   obj.getStatus = function() {
     return status;
   }

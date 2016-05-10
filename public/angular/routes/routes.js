@@ -1,4 +1,6 @@
 kubeGUI.config(function($routeProvider) {
+  /* Sets the HTML file (templateUrl) and the controller (controller) for each entry
+  with AngularJS Routing */
   $routeProvider
 
     .when('/', {

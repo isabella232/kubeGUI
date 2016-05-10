@@ -1,7 +1,13 @@
 <div class="jumbotron text-center">
+  <!-- Show status of connection -->
   <div data-ng-bind-html="status"></div>
+  <!-- Show Filter and table only if RC has elements, so when the connection doesn't
+  work show only the error at the bottom and nothing else -->
   <div ng-show="replicationcontrollers.length">
-
+  <!-- Filter input groups. 12 units and 5 columns -> set offset to 1 so input groups
+  are centered
+  Save input of textfields into scope variables (ng-model) for filtering
+  -->
   <p class="smallFont">Filter:</p>
   <div class="row">
     <div class="col-lg-2 col-lg-offset-1">
@@ -35,10 +41,16 @@
       </div>
     </div>
   </div>
-  <table class="table table-bordered table-striped" ng-show="filteredRCs.length">
 
+  <!-- Declare table and header of table. Show table only when filter has any results,
+  else, show only error message
+  -->
+  <table class="table table-bordered table-striped" ng-show="filteredRCs.length">
+    <!-- Declare default values of sort with ng-init -->
     <thead ng-init="orderBy='name';orderAsc=false">
       <tr>
+        <!-- On click, set scope variables for sorting
+        Show with ng-show correct sorting icon from FontsAwesome -->
         <th><a href="" ng-click="orderBy='name';orderAsc=!orderAsc">
           Name
           <span ng-show="orderBy=='name' && !orderAsc" class="fa fa-caret-down"></span>
@@ -68,6 +80,8 @@
     </thead>
 
   <tbody>
+    <!-- Repeat through the RC. Filter and order by input fields and
+    sorting variables declared above -->
     <tr ng-repeat="rc in (filteredRCs = (replicationcontrollers | filter:{name:filterName} | filter:{namespace:filterNamespace} |
     filter:{desiredReplicas:filterDesiredReplicas} | filter:{realReplicas:filterRealReplicas} |
     filter:{containers:filterContainer} | orderBy:orderBy:orderAsc))">
@@ -75,6 +89,7 @@
       <td>{{ rc.namespace }}</td>
       <td>{{ rc.desiredReplicas }}</td>
       <td>{{ rc.realReplicas }}</td>
+      <!-- Repeat through Containers -->
       <td><div ng-repeat="container in rc.containers" style="margin-bottom: 5px;">
         Name: {{ container.name }}
         <br/> Image: {{ container.image }}
@@ -83,6 +98,7 @@
   </tbody>
   </table>
   <br>
+  <!-- If the filteredRCs (results of the filter) has no elements, show error -->
   <p ng-show="!filteredRCs.length">No Replicationcontroller found</p>
   </div>
 </div>

@@ -1,7 +1,13 @@
 <div class="jumbotron text-center">
+  <!-- Show status of connection -->
   <div data-ng-bind-html="status"></div>
+  <!-- Show Filter and table only if services has elements, so when the connection doesn't
+  work show only the error at the bottom and nothing else -->
   <div ng-show="services.length">
-
+    <!-- Filter input groups. 12 units and 5 columns -> set offset to 1 so input groups
+    are centered
+    Save input of textfields into scope variables (ng-model) for filtering
+    -->
     <p class="smallFont">Filter:</p>
     <div class="row">
       <div class="col-lg-2 col-lg-offset-1">
@@ -36,10 +42,15 @@
       </div>
     </div>
 
+  <!-- Declare table and header of table. Show table only when filter has any results,
+  else, show only error message
+  -->
   <table class="table table-bordered table-striped" ng-show="filteredServices.length">
-
+    <!-- Declare default values of sort with ng-init -->
     <thead ng-init="orderBy='name';orderAsc=false;">
       <tr>
+        <!-- On click, set scope variables for sorting
+        Show with ng-show correct sorting icon from FontsAwesome -->
         <th><a href="" ng-click="orderBy='name';orderAsc=!orderAsc">
           Name
           <span ng-show="orderBy=='name' && !orderAsc" class="fa fa-caret-down"></span>
@@ -69,6 +80,8 @@
     </thead>
 
   <tbody>
+    <!-- Repeat through the Services. Filter and order by input fields and
+    sorting variables declared above -->
     <tr ng-repeat="service in (filteredServices = (services | filter:{name:filterName} | filter:{namespace:filterNamespace} |
     filter:{clusterIP:filterClusterIP} | filter:{type:filterType} |
     filter:{ports:filterPort} | orderBy:orderBy:orderAsc))">
@@ -76,7 +89,9 @@
       <td>{{ service.namespace }}</td>
       <td>{{ service.clusterIP }}</td>
       <td>{{ service.type }}</td>
+      <!-- Repeat through Ports -->
       <td><div ng-repeat="port in service.ports" style="margin-bottom: 10px;">
+        <!-- Show only name when it exists -->
         <div ng-show="port.name">Name: {{ port.name }}<br/></div>
         Protocol: {{ port.protocol }}
         <br/> Port: {{ port.port }}
@@ -86,6 +101,7 @@
   </tbody>
   </table>
   <br>
+  <!-- If the filteredServices (results of the filter) has no elements, show error -->
   <p ng-show="!filteredServices.length">No Service found</p>
   </div>
 </div>

@@ -87,8 +87,8 @@
     filter:{containers:filterContainer} | orderBy:orderBy:orderAsc))">
       <th scope="row">{{ pod.name }}</th>
       <td>{{ pod.namespace }}</td>
-      <td>{{ pod.nodeName }}</td>
-      <td>{{ pod.hostIP }}</td>
+      <td>{{ pod.nodeName }}<div ng-show="!pod.nodeName">None</div></td>
+      <td>{{ pod.hostIP }}<div ng-show="!pod.hostIP">None</div></td>
       <!-- Repeat through Containers -->
       <td><div ng-repeat="container in pod.containers" style="margin-bottom: 5px;">
         Name: {{ container.name }}

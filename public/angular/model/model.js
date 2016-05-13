@@ -111,7 +111,7 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
     } else if (jsonData.type == 'MODIFIED') {
       obj.modifyItem(value, kind);
     } else if (jsonData.type == 'DELETED') {
-      obj.deleteItem(jsonData.object.metadata.uid, kind);
+      obj.deleteItem(value.uid, kind);
     }
     // Refresh
     $rootScope.$apply();
@@ -137,7 +137,7 @@ kubeGUI.factory('model', function($rootScope, $location, $http) {
     } else if (jsonData.type == 'MODIFIED') {
       obj.modifyItem(value, kind);
     } else if (jsonData.type == 'DELETED') {
-      obj.deleteItem(jsonData.object.metadata.uid, kind);
+      obj.deleteItem(value.uid, kind);
     }
     // Refresh
     $rootScope.$apply();

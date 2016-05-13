@@ -1,104 +1,118 @@
 <div class="jumbotron text-center">
+
   <!-- Show status of connection -->
   <div data-ng-bind-html="status"></div>
+
   <!-- Show Filter and table only if pods has elements, so when the connection doesn't
   work show only the error at the bottom and nothing else -->
   <div ng-show="pods.length">
-  <!-- Filter input groups. 12 units and 5 columns -> set offset to 1 so input groups
+
+    <!-- Filter input groups. 12 units and 5 columns -> set offset to 1 so input groups
   are centered
   Save input of textfields into scope variables (ng-model) for filtering
   -->
-  <p class="smallFont">Filter:</p>
-  <div class="row">
-    <div class="col-lg-2 col-lg-offset-1">
-    <div class="input-group">
-      <span class="input-group-addon" id="basic-addon1">Name</span>
-      <input type="text" class="form-control" placeholder="Name of Pod" aria-describedby="basic-addon1" ng-model="filterName">
+    <p class="smallFont">Filter:</p>
+    <div class="row">
+      <div class="col-lg-2 col-lg-offset-1">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">Name</span>
+          <input type="text" class="form-control" placeholder="Name of Pod" aria-describedby="basic-addon1" ng-model="filterName">
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">Namespace</span>
+          <input type="text" class="form-control" placeholder="Namespace of Pod" aria-describedby="basic-addon1" ng-model="filterNamespace">
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">Nodename</span>
+          <input type="text" class="form-control" placeholder="Nodename of Pod" aria-describedby="basic-addon1" ng-model="filterNodeName">
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">HostIP</span>
+          <input type="text" class="form-control" placeholder="HostIP of Pod" aria-describedby="basic-addon1" ng-model="filterHostIP">
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">Container</span>
+          <input type="text" class="form-control" placeholder="Container Name/Image" aria-describedby="basic-addon1" ng-model="filterContainer">
+        </div>
+      </div>
     </div>
-    </div>
-    <div class="col-lg-2">
-    <div class="input-group">
-      <span class="input-group-addon" id="basic-addon1">Namespace</span>
-      <input type="text" class="form-control" placeholder="Namespace of Pod" aria-describedby="basic-addon1" ng-model="filterNamespace">
-    </div>
-    </div>
-    <div class="col-lg-2">
-    <div class="input-group">
-      <span class="input-group-addon" id="basic-addon1">Nodename</span>
-      <input type="text" class="form-control" placeholder="Nodename of Pod" aria-describedby="basic-addon1" ng-model="filterNodeName">
-    </div>
-    </div>
-    <div class="col-lg-2">
-    <div class="input-group">
-      <span class="input-group-addon" id="basic-addon1">HostIP</span>
-      <input type="text" class="form-control" placeholder="HostIP of Pod" aria-describedby="basic-addon1" ng-model="filterHostIP">
-    </div>
-    </div>
-    <div class="col-lg-2">
-    <div class="input-group">
-      <span class="input-group-addon" id="basic-addon1">Container</span>
-      <input type="text" class="form-control" placeholder="Container Name/Image" aria-describedby="basic-addon1" ng-model="filterContainer">
-    </div>
-    </div>
-  </div>
 
-  <!-- Declare table and header of table. Show table only when filter has any results,
+    <!-- Declare table and header of table. Show table only when filter has any results,
   else, show only error message
   -->
-  <table class="table table-bordered table-striped" ng-show="filteredPods.length">
-    <!-- Declare default values of sort with ng-init -->
-    <thead ng-init="orderBy='name';orderAsc=false;">
-      <tr>
-        <!-- On click, set scope variables for sorting
+    <table class="table table-bordered table-striped" ng-show="filteredPods.length">
+
+      <!-- Declare default values of sort with ng-init -->
+      <thead ng-init="orderBy='name';orderAsc=false;">
+        <tr>
+
+          <!-- On click, set scope variables for sorting
         Show with ng-show correct sorting icon from FontsAwesome -->
-        <th><a href="" ng-click="orderBy='name';orderAsc=!orderAsc">
+          <th><a href="" ng-click="orderBy='name';orderAsc=!orderAsc">
           Name
           <span ng-show="orderBy=='name' && !orderAsc" class="fa fa-caret-down"></span>
           <span ng-show="orderBy=='name' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
-        <th><a href="" ng-click="orderBy='namespace';orderAsc=!orderAsc">
+          <th><a href="" ng-click="orderBy='namespace';orderAsc=!orderAsc">
           Namespace
           <span ng-show="orderBy=='namespace' && !orderAsc" class="fa fa-caret-down"></span>
           <span ng-show="orderBy=='namespace' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
-        <th><a href="" ng-click="orderBy='nodeName';orderAsc=!orderAsc">
+          <th><a href="" ng-click="orderBy='nodeName';orderAsc=!orderAsc">
           Nodename
           <span ng-show="orderBy=='nodeName' && !orderAsc" class="fa fa-caret-down"></span>
           <span ng-show="orderBy=='nodeName' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
-        <th><a href="" ng-click="orderBy='hostIP';orderAsc=!orderAsc">
+          <th><a href="" ng-click="orderBy='hostIP';orderAsc=!orderAsc">
           HostIP
           <span ng-show="orderBy=='hostIP' && !orderAsc" class="fa fa-caret-down"></span>
           <span ng-show="orderBy=='hostIP' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
-        <th><a href="" ng-click="orderBy='containers';orderAsc=!orderAsc">
+          <th><a href="" ng-click="orderBy='containers';orderAsc=!orderAsc">
           Container
           <span ng-show="orderBy=='containers' && !orderAsc" class="fa fa-caret-down"></span>
           <span ng-show="orderBy=='containers' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
-      </tr>
-    </thead>
+        </tr>
+      </thead>
 
-  <tbody>
-    <!-- Repeat through the pods. Filter and order by input fields and
+      <tbody>
+
+        <!-- Repeat through the pods. Filter and order by input fields and
     sorting variables declared above -->
-    <tr ng-repeat="pod in (filteredPods = (pods | filter:{name:filterName} | filter:{namespace:filterNamespace} |
+        <tr ng-repeat="pod in (filteredPods = (pods | filter:{name:filterName} | filter:{namespace:filterNamespace} |
     filter:{nodeName:filterNodeName} | filter:{hostIP:filterHostIP} |
     filter:{containers:filterContainer} | orderBy:orderBy:orderAsc))">
-      <th scope="row">{{ pod.name }}</th>
-      <td>{{ pod.namespace }}</td>
-      <td>{{ pod.nodeName }}<div ng-show="!pod.nodeName">None</div></td>
-      <td>{{ pod.hostIP }}<div ng-show="!pod.hostIP">None</div></td>
-      <!-- Repeat through Containers -->
-      <td><div ng-repeat="container in pod.containers" style="margin-bottom: 5px;">
-        Name: {{ container.name }}
-        <br/> Image: {{ container.image }}
-      </div></td>
-    </tr>
-  </tbody>
-  </table>
-  <br>
-  <!-- If the filteredPods (results of the filter) has no elements, show error -->
-  <p ng-show="!filteredPods.length">No Pods found</p>
+          <th scope="row">{{ pod.name }}</th>
+          <td>{{ pod.namespace }}</td>
+          <td>{{ pod.nodeName }}
+            <div ng-show="!pod.nodeName">None</div>
+          </td>
+          <td>{{ pod.hostIP }}
+            <div ng-show="!pod.hostIP">None</div>
+          </td>
+
+          <!-- Repeat through Containers -->
+          <td>
+            <div ng-repeat="container in pod.containers" style="margin-bottom: 5px;">
+              Name: {{ container.name }}
+              <br/> Image: {{ container.image }}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+
+    <!-- If the filteredPods (results of the filter) has no elements, show error -->
+    <p ng-show="!filteredPods.length">No Pods found</p>
   </div>
 </div>

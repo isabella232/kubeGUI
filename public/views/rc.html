@@ -1,104 +1,113 @@
 <div class="jumbotron text-center">
+
   <!-- Show status of connection -->
   <div data-ng-bind-html="status"></div>
+
   <!-- Show Filter and table only if RC has elements, so when the connection doesn't
   work show only the error at the bottom and nothing else -->
   <div ng-show="replicationcontrollers.length">
-  <!-- Filter input groups. 12 units and 5 columns -> set offset to 1 so input groups
+
+    <!-- Filter input groups. 12 units and 5 columns -> set offset to 1 so input groups
   are centered
   Save input of textfields into scope variables (ng-model) for filtering
   -->
-  <p class="smallFont">Filter:</p>
-  <div class="row">
-    <div class="col-lg-2 col-lg-offset-1">
-      <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1">Name</span>
-        <input type="text" class="form-control" placeholder="Name of RC" aria-describedby="basic-addon1" ng-model="filterName">
+    <p class="smallFont">Filter:</p>
+    <div class="row">
+      <div class="col-lg-2 col-lg-offset-1">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">Name</span>
+          <input type="text" class="form-control" placeholder="Name of RC" aria-describedby="basic-addon1" ng-model="filterName">
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">Namespace</span>
+          <input type="text" class="form-control" placeholder="Namespace of RC" aria-describedby="basic-addon1" ng-model="filterNamespace">
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">Desired replicas</span>
+          <input type="number" min="1" required class="form-control" placeholder="Desired amount of replications" aria-describedby="basic-addon1" ng-model="filterDesiredReplicas">
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">Real replicas </span>
+          <input type="number" min="1" required class="form-control" placeholder="Real amount of replications" aria-describedby="basic-addon1" ng-model="filterRealReplicas">
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">Container</span>
+          <input type="text" class="form-control" placeholder="Container Name or Image" aria-describedby="basic-addon1" ng-model="filterContainer">
+        </div>
       </div>
     </div>
-    <div class="col-lg-2">
-      <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1">Namespace</span>
-        <input type="text" class="form-control" placeholder="Namespace of RC" aria-describedby="basic-addon1" ng-model="filterNamespace">
-      </div>
-    </div>
-    <div class="col-lg-2">
-      <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1">Desired replicas</span>
-        <input type="number" min="1" required class="form-control" placeholder="Desired amount of replications" aria-describedby="basic-addon1" ng-model="filterDesiredReplicas">
-      </div>
-    </div>
-    <div class="col-lg-2">
-      <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1">Real replicas </span>
-        <input type="number" min="1" required class="form-control" placeholder="Real amount of replications" aria-describedby="basic-addon1" ng-model="filterRealReplicas">
-      </div>
-    </div>
-    <div class="col-lg-2">
-      <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1">Container</span>
-        <input type="text" class="form-control" placeholder="Container Name or Image" aria-describedby="basic-addon1" ng-model="filterContainer">
-      </div>
-    </div>
-  </div>
 
-  <!-- Declare table and header of table. Show table only when filter has any results,
+    <!-- Declare table and header of table. Show table only when filter has any results,
   else, show only error message
   -->
-  <table class="table table-bordered table-striped" ng-show="filteredRCs.length">
-    <!-- Declare default values of sort with ng-init -->
-    <thead ng-init="orderBy='name';orderAsc=false">
-      <tr>
-        <!-- On click, set scope variables for sorting
+    <table class="table table-bordered table-striped" ng-show="filteredRCs.length">
+
+      <!-- Declare default values of sort with ng-init -->
+      <thead ng-init="orderBy='name';orderAsc=false">
+        <tr>
+
+          <!-- On click, set scope variables for sorting
         Show with ng-show correct sorting icon from FontsAwesome -->
-        <th><a href="" ng-click="orderBy='name';orderAsc=!orderAsc">
+          <th><a href="" ng-click="orderBy='name';orderAsc=!orderAsc">
           Name
           <span ng-show="orderBy=='name' && !orderAsc" class="fa fa-caret-down"></span>
           <span ng-show="orderBy=='name' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
-        <th><a href="" ng-click="orderBy='namespace';orderAsc=!orderAsc">
+          <th><a href="" ng-click="orderBy='namespace';orderAsc=!orderAsc">
           Namespace
           <span ng-show="orderBy=='namespace' && !orderAsc" class="fa fa-caret-down"></span>
           <span ng-show="orderBy=='namespace' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
-        <th><a href="" ng-click="orderBy='desiredReplicas';orderAsc=!orderAsc">
+          <th><a href="" ng-click="orderBy='desiredReplicas';orderAsc=!orderAsc">
           Desired Replicas
           <span ng-show="orderBy=='desiredReplicas' && !orderAsc" class="fa fa-caret-down"></span>
           <span ng-show="orderBy=='desiredReplicas' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
-        <th><a href="" ng-click="orderBy='realReplicas';orderAsc=!orderAsc">
+          <th><a href="" ng-click="orderBy='realReplicas';orderAsc=!orderAsc">
           Real Replicas
           <span ng-show="orderBy=='realReplicas' && !orderAsc" class="fa fa-caret-down"></span>
           <span ng-show="orderBy=='realReplicas' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
-        <th><a href="" ng-click="orderBy='containers';orderAsc=!orderAsc">
+          <th><a href="" ng-click="orderBy='containers';orderAsc=!orderAsc">
           Container
           <span ng-show="orderBy=='containers' && !orderAsc" class="fa fa-caret-down"></span>
           <span ng-show="orderBy=='containers' && orderAsc" class="fa fa-caret-up"></span>
         </a></th>
-      </tr>
-    </thead>
+        </tr>
+      </thead>
 
-  <tbody>
-    <!-- Repeat through the RC. Filter and order by input fields and
+      <tbody>
+
+        <!-- Repeat through the RC. Filter and order by input fields and
     sorting variables declared above -->
-    <tr ng-repeat="rc in (filteredRCs = (replicationcontrollers | filter:{name:filterName} | filter:{namespace:filterNamespace} |
+        <tr ng-repeat="rc in (filteredRCs = (replicationcontrollers | filter:{name:filterName} | filter:{namespace:filterNamespace} |
     filter:{desiredReplicas:filterDesiredReplicas} | filter:{realReplicas:filterRealReplicas} |
     filter:{containers:filterContainer} | orderBy:orderBy:orderAsc))">
-      <th scope="row">{{ rc.name }}</th>
-      <td>{{ rc.namespace }}</td>
-      <td>{{ rc.desiredReplicas }}</td>
-      <td>{{ rc.realReplicas }}</td>
-      <!-- Repeat through Containers -->
-      <td><div ng-repeat="container in rc.containers" style="margin-bottom: 5px;">
-        Name: {{ container.name }}
-        <br/> Image: {{ container.image }}
-      </div></td>
-    </tr>
-  </tbody>
-  </table>
-  <br>
-  <!-- If the filteredRCs (results of the filter) has no elements, show error -->
-  <p ng-show="!filteredRCs.length">No Replicationcontroller found</p>
+          <th scope="row">{{ rc.name }}</th>
+          <td>{{ rc.namespace }}</td>
+          <td>{{ rc.desiredReplicas }}</td>
+          <td>{{ rc.realReplicas }}</td>
+
+          <!-- Repeat through Containers -->
+          <td>
+            <div ng-repeat="container in rc.containers" style="margin-bottom: 5px;">
+              Name: {{ container.name }}
+              <br/> Image: {{ container.image }}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <!-- If the filteredRCs (results of the filter) has no elements, show error -->
+    <p ng-show="!filteredRCs.length">No Replicationcontroller found</p>
   </div>
 </div>

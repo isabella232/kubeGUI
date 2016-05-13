@@ -9,5 +9,6 @@ spec:
     protocol: TCP
   selector:
     app: kubegui
+    
   # Creates LoadBalancer from CloudProvider
   type: LoadBalancer
